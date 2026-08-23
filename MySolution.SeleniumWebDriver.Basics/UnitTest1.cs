@@ -174,14 +174,11 @@ public class Tests
         var clickHereLink = driver.FindElement(By.LinkText("Click here"));
         clickHereLink.Click();
         Thread.Sleep(1000);
-
-        // 3. Находим всплывающую плашку нотификации по ID
+        
         var notification = driver.FindElement(By.Id("flash"));
-
-        // 4. Забираем текст из нотификации
+        
         var notificationText = notification.Text;
-
-        // 5. Проверяем, что текст содержит одно из ожидаемых сообщений
+        
         Assert.That(notificationText,
             Does.Contain("Action successful").Or.Contains("Action unsuccesful, please try again"));
 
