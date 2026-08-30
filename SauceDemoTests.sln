@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Core", "SauceDemo.Core\SauceDemo.Core.csproj", "{3965A60E-B5B0-4CE6-A864-02128B9799BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Test", "SauceDemo.Test\SauceDemo.Test.csproj", "{B587CEBA-FBEC-4516-BBAD-84C48CCCAC90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3965A60E-B5B0-4CE6-A864-02128B9799BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3965A60E-B5B0-4CE6-A864-02128B9799BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3965A60E-B5B0-4CE6-A864-02128B9799BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3965A60E-B5B0-4CE6-A864-02128B9799BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B587CEBA-FBEC-4516-BBAD-84C48CCCAC90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B587CEBA-FBEC-4516-BBAD-84C48CCCAC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B587CEBA-FBEC-4516-BBAD-84C48CCCAC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B587CEBA-FBEC-4516-BBAD-84C48CCCAC90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
