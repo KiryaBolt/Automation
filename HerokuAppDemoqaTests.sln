@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerokuAppDemoqa.Core", "HerokuAppDemoqa.Core\HerokuAppDemoqa.Core.csproj", "{AA0CE876-E22E-407B-8FA9-670498E7AC36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerokuAppDemoqa.Test", "HerokuAppDemoqa.Test\HerokuAppDemoqa.Test.csproj", "{83B396FF-5E9F-444F-9716-22A8A2E40C51}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA0CE876-E22E-407B-8FA9-670498E7AC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA0CE876-E22E-407B-8FA9-670498E7AC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA0CE876-E22E-407B-8FA9-670498E7AC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA0CE876-E22E-407B-8FA9-670498E7AC36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B396FF-5E9F-444F-9716-22A8A2E40C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B396FF-5E9F-444F-9716-22A8A2E40C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B396FF-5E9F-444F-9716-22A8A2E40C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B396FF-5E9F-444F-9716-22A8A2E40C51}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
