@@ -1,43 +1,48 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
+using SauceDemo.Core.Wrappers;
 
 namespace SauceDemo.Core.PageObjects;
 
 public class HeaderSection : BasePage
 {
-    private readonly By _btnBurgerMenu = By.Id("react-burger-menu-btn");
-    private readonly By _btnLogout = By.Id("logout_sidebar_link");
+    #region Elements
+    private Button BurgerMenuBtn => new Button(_driver, By.Id("react-burger-menu-btn"));
+    private Button LogoutBtn => new Button(_driver, By.Id("logout_sidebar_link"));
+    private Button CartLink => new Button(_driver, By.ClassName("shopping_cart_link"));
+    #endregion
 
     public HeaderSection(IWebDriver driver) : base(driver)
     {
     }
 
+    #region Methods
     public HeaderSection OpenSideMenu()
     {
-        _driver.FindElement(_btnBurgerMenu).Click();
+        BurgerMenuBtn.Click();
         
         WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
-        wait.Until(e => e.FindElement(_btnLogout).Displayed);
-        
-        return this; 
+        wait.Until(_ => LogoutBtn.IsDisplayed());
+
+        return this;
     }
 
     public LoginPage ClickLogoutButton()
     {
-        _driver.FindElement(_btnLogout).Click();
-        
-        return new LoginPage(_driver); 
+        LogoutBtn.Click();
+        return new LoginPage(_driver);
     }
 
     public LoginPage Logout()
     {
         return OpenSideMenu().ClickLogoutButton();
     }
-    
+
     public CartPage ClickCart()
     {
-        _driver.FindElement(By.ClassName("shopping_cart_link")).Click();
+        CartLink.Click();
         return new CartPage(_driver);
     }
+    #endregion
 }

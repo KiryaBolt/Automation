@@ -1,16 +1,18 @@
 using OpenQA.Selenium;
+using SauceDemo.Core.Wrappers;
 
 namespace SauceDemo.Core.PageObjects;
 
 public class CartPage : BasePage
 {
-    #region Locators
-    private readonly By _btnCheckout = By.Id("checkout");
+    #region Elements
+    private Button CheckoutBtn => new Button(_driver, By.Id("checkout"));
+    private Button RemoveItemBtn => new Button(_driver, By.XPath("//button[text()='Remove']"));
+    
+    // Оставляем By для FindElements
     private readonly By _cartItem = By.ClassName("cart_item");
-    private readonly By _btnRemoveItem = By.XPath("//button[text()='Remove']");
     #endregion
 
-    // Связь с шапкой в стиле преподавателя
     public HeaderSection Header => new(_driver);
 
     public CartPage(IWebDriver driver) : base(driver)
@@ -18,16 +20,16 @@ public class CartPage : BasePage
     }
 
     #region Methods
-    public void ClickCheckout() => 
-        _driver.FindElement(_btnCheckout).Click();
+    public CheckoutStepOnePage ClickCheckout()
+    {
+        CheckoutBtn.Click();
+        return new CheckoutStepOnePage(_driver);
+    }
 
-    public int GetCartItemsCount() => 
-        _driver.FindElements(_cartItem).Count;
+    public int GetCartItemsCount() => _driver.FindElements(_cartItem).Count;
 
-    public void RemoveFirstItem() => 
-        _driver.FindElement(_btnRemoveItem).Click();
+    public void RemoveFirstItem() => RemoveItemBtn.Click();
 
-    public bool IsCartPageDisplayed() => 
-        _driver.FindElement(_btnCheckout)?.Displayed ?? false;
+    public bool IsCartPageDisplayed() => CheckoutBtn.IsDisplayed();
     #endregion
 }
