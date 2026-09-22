@@ -1,36 +1,42 @@
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.PageObjects;
 using System;
-using SauceDemo.Core.Wrappers;
+using OpenQA.Selenium.Support.UI;
 
 namespace SauceDemo.Core.PageObjects;
 
 public class HeaderSection : BasePage
 {
-    #region Elements
-    private Button BurgerMenuBtn => new Button(_driver, By.Id("react-burger-menu-btn"));
-    private Button LogoutBtn => new Button(_driver, By.Id("logout_sidebar_link"));
-    private Button CartLink => new Button(_driver, By.ClassName("shopping_cart_link"));
-    #endregion
+    [FindsBy(How = How.Id, Using = "react-burger-menu-btn")]
+    private IWebElement _burgerMenuBtn;
+
+    [FindsBy(How = How.Id, Using = "logout_sidebar_link")]
+    private IWebElement _logoutBtn;
+
+    [FindsBy(How = How.ClassName, Using = "shopping_cart_link")]
+    private IWebElement _cartLink;
 
     public HeaderSection(IWebDriver driver) : base(driver)
     {
     }
 
-    #region Methods
+    protected override void WaitForPageLoad()
+    {
+        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        wait.Until(d => _burgerMenuBtn.Displayed);
+    }
+
     public HeaderSection OpenSideMenu()
     {
-        BurgerMenuBtn.Click();
-        
-        WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
-        wait.Until(_ => LogoutBtn.IsDisplayed());
-
+        _burgerMenuBtn.Click();
+        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+        wait.Until(d => _logoutBtn.Displayed);
         return this;
     }
 
     public LoginPage ClickLogoutButton()
     {
-        LogoutBtn.Click();
+        _logoutBtn.Click();
         return new LoginPage(_driver);
     }
 
@@ -41,8 +47,7 @@ public class HeaderSection : BasePage
 
     public CartPage ClickCart()
     {
-        CartLink.Click();
+        _cartLink.Click();
         return new CartPage(_driver);
     }
-    #endregion
 }

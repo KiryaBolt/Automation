@@ -1,51 +1,63 @@
 using OpenQA.Selenium;
-using SauceDemo.Core.Wrappers;
+using SeleniumExtras.PageObjects;
+using System;
+using OpenQA.Selenium.Support.UI;
 
 namespace SauceDemo.Core.PageObjects;
 
 public class LoginPage : BasePage
 {
-    private Input UserNameInput => new Input(_driver, By.Id("user-name"));
-    private Input PasswordInput => new Input(_driver, By.Id("password"));
-    private Button LoginBtn => new Button(_driver, By.Id("login-button"));
-    private Label ErrorMessage => new Label(_driver, By.CssSelector("h3[data-test='error']"));
+
+    [FindsBy(How = How.Id, Using = "user-name")]
+    private IWebElement _userNameInput;
+
+    [FindsBy(How = How.Id, Using = "password")]
+    private IWebElement _passwordInput;
+
+    [FindsBy(How = How.Id, Using = "login-button")]
+    private IWebElement _loginButton;
+
+    [FindsBy(How = How.CssSelector, Using = "h3[data-test='error']")]
+    private IWebElement _errorMessage;
 
     public LoginPage(IWebDriver driver) : base(driver)
     {
     }
-    
-    public bool IsLoginPageDisplayed()
+
+    protected override void WaitForPageLoad()
     {
-        return LoginBtn.IsDisplayed();
+        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        wait.Until(d => _loginButton.Displayed);
     }
     
     public LoginPage SetUserName(string username)
     {
-        UserNameInput.SendKeys(username);
+        _userNameInput.SendKeys(username);
         return this;
     }
 
     public LoginPage SetPassword(string password)
     {
-        PasswordInput.SendKeys(password);
+        _passwordInput.SendKeys(password);
         return this;
     }
 
     public void ClickLoginButton()
     {
-        LoginBtn.Click();
+        _loginButton.Click();
     }
-
+    
     public InventoryPage Login(string username = "standard_user", string password = "secret_sauce")
     {
-        SetUserName(username);
-        SetPassword(password);
-        ClickLoginButton();
+        SetUserName(username)
+            .SetPassword(password)
+            .ClickLoginButton();
+            
         return new InventoryPage(_driver);
     }
 
     public string GetErrorMessage()
     {
-        return ErrorMessage.Text;
+        return _errorMessage.Text;
     }
 }

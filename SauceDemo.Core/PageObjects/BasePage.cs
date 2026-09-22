@@ -1,27 +1,28 @@
 using OpenQA.Selenium;
+using SeleniumExtras.PageObjects;
 
 namespace SauceDemo.Core.PageObjects;
 
-public class BasePage
+public abstract class BasePage 
 {
     protected IWebDriver _driver;
 
-    public BasePage(IWebDriver driver)
+    protected BasePage(IWebDriver driver)
     {
         _driver = driver;
-    }
 
-    public void OpenSauceDemo()
-    {
-        _driver.Navigate().GoToUrl("https://www.saucedemo.com/");
-        _driver.Manage().Window.Maximize();
+        PageFactory.InitElements(_driver, this);
+
+        WaitForPageLoad();
     }
     
+    protected abstract void WaitForPageLoad();
+
     public string GetUrl()
     {
         return _driver.Url;
     }
-    
+
     public string GetPageTitle()
     {
         return _driver.Title;

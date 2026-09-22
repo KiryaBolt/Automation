@@ -1,20 +1,28 @@
 using OpenQA.Selenium;
-using SauceDemo.Core.Wrappers;
+using SeleniumExtras.PageObjects;
+using System;
+using OpenQA.Selenium.Support.UI;
 
 namespace SauceDemo.Core.PageObjects;
 
 public class CheckoutStepTwoPage : BasePage
 {
-    private Button FinishBtn => new Button(_driver, By.Id("finish"));
+    [FindsBy(How = How.Id, Using = "finish")]
+    private IWebElement _finishBtn;
 
     public CheckoutStepTwoPage(IWebDriver driver) : base(driver)
     {
     }
     
+    protected override void WaitForPageLoad()
+    {
+        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        wait.Until(d => _finishBtn.Displayed);
+    }
+
     public CheckoutCompletePage FinishCheckout()
     {
-        FinishBtn.Click();
-        
+        _finishBtn.Click();
         return new CheckoutCompletePage(_driver);
     }
 }
