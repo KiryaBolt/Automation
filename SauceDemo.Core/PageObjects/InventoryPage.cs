@@ -1,33 +1,39 @@
 using OpenQA.Selenium;
-using SauceDemo.Core.Wrappers;
+using SeleniumExtras.PageObjects;
+using System;
+using OpenQA.Selenium.Support.UI;
 
 namespace SauceDemo.Core.PageObjects;
 
 public class InventoryPage : BasePage
 {
-    #region Elements
 
-    private Button CartIcon => new Button(_driver, By.CssSelector("a[data-test='shopping-cart-link']"));
-    private Button AddBackpackBtn => new Button(_driver, By.Id("add-to-cart-sauce-labs-backpack"));
-    #endregion
+    [FindsBy(How = How.CssSelector, Using = "a[data-test='shopping-cart-link']")]
+    private IWebElement _cartIcon;
 
-    public HeaderSection Header => new (_driver);
+    [FindsBy(How = How.Id, Using = "add-to-cart-sauce-labs-backpack")]
+    private IWebElement _addBackpackBtn;
+    
+    public HeaderSection Header => new HeaderSection(_driver);
 
     public InventoryPage(IWebDriver driver) : base(driver)
     {
     }
 
-    #region Methods
-    public bool IsCartIconDisplayed()
+    protected override void WaitForPageLoad()
     {
-        // Вызываем метод IsDisplayed(), который унаследован от BaseElement
-        return CartIcon.IsDisplayed();
+        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        wait.Until(d => _cartIcon.Displayed);
     }
 
-    public void AddBackpackToCart()
+    public bool IsCartIconDisplayed()
     {
-        // Метод Click() берем из обертки Button
-        AddBackpackBtn.Click();
+        return _cartIcon.Displayed;
     }
-    #endregion
+
+    public InventoryPage AddBackpackToCart()
+    {
+        _addBackpackBtn.Click();
+        return this;
+    }
 }

@@ -9,23 +9,18 @@ public class E2ETests : BaseTest
     [Test]
     public void SuccessfulPurchaseFlowTest()
     {
-
         var loginPage = new LoginPage(driver);
-        loginPage.OpenSauceDemo();
-        
-        var inventoryPage = loginPage.Login("standard_user", "secret_sauce");
 
-        inventoryPage.AddBackpackToCart();
-        var cartPage = inventoryPage.Header.ClickCart();
- 
-        var checkoutStepOnePage = cartPage.ClickCheckout();
-
-        var checkoutStepTwoPage = checkoutStepOnePage.ContinueCheckout("John", "Doe", "12345");
-
-        var checkoutCompletePage = checkoutStepTwoPage.FinishCheckout();
+        var actualMessage = loginPage
+            .Login("standard_user", "secret_sauce")
+            .AddBackpackToCart()
+            .Header.ClickCart()
+            .ClickCheckout()
+            .ContinueCheckout("John", "Doe", "12345")
+            .FinishCheckout()
+            .GetCompleteMessageText();
 
         var expectedMessage = "Thank you for your order!";
-        var actualMessage = checkoutCompletePage.GetCompleteMessageText();
 
         Assert.That(actualMessage, Is.EqualTo(expectedMessage), 
             "Сообщение об успешной покупке не совпадает с ожидаемым.");

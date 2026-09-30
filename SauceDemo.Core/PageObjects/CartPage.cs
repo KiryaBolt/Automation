@@ -1,35 +1,47 @@
 using OpenQA.Selenium;
-using SauceDemo.Core.Wrappers;
+using SeleniumExtras.PageObjects;
+using System;
+using System.Collections.Generic;
+using OpenQA.Selenium.Support.UI;
 
 namespace SauceDemo.Core.PageObjects;
 
 public class CartPage : BasePage
 {
-    #region Elements
-    private Button CheckoutBtn => new Button(_driver, By.Id("checkout"));
-    private Button RemoveItemBtn => new Button(_driver, By.XPath("//button[text()='Remove']"));
-    
-    // Оставляем By для FindElements
-    private readonly By _cartItem = By.ClassName("cart_item");
-    #endregion
+    [FindsBy(How = How.Id, Using = "checkout")]
+    private IWebElement _checkoutBtn;
 
-    public HeaderSection Header => new(_driver);
+    [FindsBy(How = How.XPath, Using = "//button[text()='Remove']")]
+    private IWebElement _removeItemBtn;
+    
+    [FindsBy(How = How.ClassName, Using = "cart_item")]
+    private IList<IWebElement> _cartItems;
+
+    public HeaderSection Header => new HeaderSection(_driver);
 
     public CartPage(IWebDriver driver) : base(driver)
     {
     }
 
-    #region Methods
+    protected override void WaitForPageLoad()
+    {
+        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+        wait.Until(d => _checkoutBtn.Displayed);
+    }
+
     public CheckoutStepOnePage ClickCheckout()
     {
-        CheckoutBtn.Click();
+        _checkoutBtn.Click();
         return new CheckoutStepOnePage(_driver);
     }
 
-    public int GetCartItemsCount() => _driver.FindElements(_cartItem).Count;
+    public int GetCartItemsCount() => _cartItems.Count;
 
-    public void RemoveFirstItem() => RemoveItemBtn.Click();
+    public CartPage RemoveFirstItem() 
+    {
+        _removeItemBtn.Click();
+        return this;
+    }
 
-    public bool IsCartPageDisplayed() => CheckoutBtn.IsDisplayed();
-    #endregion
+    public bool IsCartPageDisplayed() => _checkoutBtn.Displayed;
 }
