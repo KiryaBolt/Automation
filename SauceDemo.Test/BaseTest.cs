@@ -23,7 +23,7 @@ public class BaseTest
 
         driver = DriverFactory.CreateDriver(Settings);
 
-        driver.Navigate().GoToUrl(Settings.BaseUrl);
+        driver.Navigate().GoToUrl(Settings.BaseUrl); 
     }
 
     [TearDown]
