@@ -1,15 +1,14 @@
-using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using SauceDemo.Core.Configuration;
-using SauceDemo.Core.Infrastructure;
+using OpenQA.Selenium.Chrome;
+using System;
+using SauceDemo.Core.PageObjects;
 
 namespace SauceDemo.Test;
 
 public class BaseTest
 {
     protected IWebDriver driver;
-    protected TestSettings Settings;
 
     [SetUp]
     public void Setup()
@@ -22,8 +21,7 @@ public class BaseTest
         config.GetSection("TestSettings").Bind(Settings);
 
         driver = DriverFactory.CreateDriver(Settings);
-
-        driver.Navigate().GoToUrl(Settings.BaseUrl); 
+        driver.Navigate().GoToUrl(Settings.BaseUrl);
     }
 
     [TearDown]
@@ -32,4 +30,4 @@ public class BaseTest
         driver?.Quit();
         driver?.Dispose();
     }
-}
+} 
