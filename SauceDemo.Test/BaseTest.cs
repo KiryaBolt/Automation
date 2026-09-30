@@ -13,16 +13,21 @@ public class BaseTest
     [SetUp]
     public void Setup()
     {
-        ChromeOptions options = new ChromeOptions();
-        options.AddArguments("--guest");
+        var options = new ChromeOptions();
+        options.AddArgument("--headless=new"); 
+        options.AddArgument("--no-sandbox"); 
+        options.AddArgument("--disable-dev-shm-usage"); 
+        options.BinaryLocation = "/usr/bin/chromium";
+
         driver = new ChromeDriver(options);
+    
         new BasePage(driver).OpenSauceDemo();
     }
 
     [TearDown]
     public void TearDown()
     {
-        driver.Quit();
-        driver.Dispose();
+        driver?.Quit();
+        driver?.Dispose();
     }
 }
