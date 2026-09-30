@@ -26,14 +26,21 @@ public static class DriverFactory
     private static IWebDriver GetChromeDriver(bool isHeadless)
     {
         var options = new ChromeOptions();
+    
         if (isHeadless)
         {
             options.AddArgument("--headless=new");
-            options.AddArgument("--no-sandbox"); // Отключение песочницы для Docker
-            options.AddArgument("--disable-dev-shm-usage"); // Обход ограничений памяти в Docker
-            options.BinaryLocation = "/usr/bin/chromium"; // Путь к браузеру внутри Linux-контейнера
         }
-    
+
+        // Если код запускается на сервере Linux (Jenkins Docker)
+        if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux))
+        {
+            options.AddArgument("--headless=new"); // На сервере браузер всегда должен быть невидимым
+            options.AddArgument("--no-sandbox"); // Обязательно для Docker
+            options.AddArgument("--disable-dev-shm-usage");
+            options.BinaryLocation = "/usr/bin/chromium";
+        }
+
         return new ChromeDriver(options);
     }
 
