@@ -13,15 +13,15 @@ public class BaseTest
     [SetUp]
     public void Setup()
     {
-        var options = new ChromeOptions();
-        options.AddArgument("--headless=new"); 
-        options.AddArgument("--no-sandbox"); 
-        options.AddArgument("--disable-dev-shm-usage"); 
-        options.BinaryLocation = "/usr/bin/chromium";
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
 
-        driver = new ChromeDriver(options);
-    
-        new BasePage(driver).OpenSauceDemo();
+        Settings = new TestSettings();
+        config.GetSection("TestSettings").Bind(Settings);
+
+        driver = DriverFactory.CreateDriver(Settings);
+        driver.Navigate().GoToUrl(Settings.BaseUrl);
     }
 
     [TearDown]
