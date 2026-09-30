@@ -20,7 +20,7 @@ public class BaseTest
         var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
-
+ 
         Settings = new TestSettings();
         config.GetSection("TestSettings").Bind(Settings);
 
